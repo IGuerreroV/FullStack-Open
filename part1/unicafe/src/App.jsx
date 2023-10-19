@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import  ReactDOM  from 'react-dom'
 import Statistics from './components/Statistics'
 import './App.css'
 
