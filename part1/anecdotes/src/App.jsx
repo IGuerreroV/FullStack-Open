@@ -5,15 +5,33 @@ import './App.css'
 
 const App = () => {
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState([0, 0, 0, 0, 0])
 
   const handleRandom = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
   }
+
+  // Esta función incrementa el número de votos de la anécdota seleccionada.
+  const handleVote = () => {
+    // Creo una copia de votes
+    const points = [...votes]
+    // Incrementa en 1 el numero de votos de la anecdota seleccionada
+    points[selected] +=1
+    // Registra la matriz de votos actualizada en la consola para fines de depuración.
+    console.log(points)
+    // Actualiza el estado con la matriz de votos actualizada
+    setVotes(points)
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
+      <p>{anecdotes[selected]}</p>
+      <p>Has: {votes[selected]}</p>
+      <button onClick={handleVote}>
+        vote
+      </button>
       <button onClick={handleRandom}>
-        dame click
+        next anecdote
       </button>
     </div>
   )
