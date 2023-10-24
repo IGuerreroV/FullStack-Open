@@ -6,6 +6,25 @@ import './App.css'
 const App = () => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState([0, 0, 0, 0, 0])
+  const [maxVoted, setMaxVoted] = useState(0)
+
+   // Funcion para calcular la anecdota con mas votos
+  const calcMaxAnecdotesVotes = () => {
+    // Variable para almacenar el numero de votos maximo
+    let max = 0
+
+    // Iteracion a traves de la matriz de votos
+    for(const vote in votes) {
+      //Comprueba si el numero de votos actual es mayor que el maximo
+      if (votes[vote] > max) {
+        // Actualiza el numero de votos maximo
+        max = votes[vote]
+        // Actualiza el indice de la anecdota con mas votos
+        setMaxVoted(vote)
+        console.log(max);
+      }
+    }
+  }
 
   const handleRandom = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
@@ -21,10 +40,14 @@ const App = () => {
     console.log(points)
     // Actualiza el estado con la matriz de votos actualizada
     setVotes(points)
+
+    // Llama a la funcion para calcular la anecdota con mas votos
+    calcMaxAnecdotesVotes()
   }
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>Has: {votes[selected]}</p>
       <button onClick={handleVote}>
@@ -33,6 +56,8 @@ const App = () => {
       <button onClick={handleRandom}>
         next anecdote
       </button>
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdotes[maxVoted]}</p>
     </div>
   )
 }
