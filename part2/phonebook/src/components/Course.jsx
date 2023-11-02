@@ -1,12 +1,11 @@
 import Content from "./Content"
 import Header from "./Header"
 
-const Course = ({ course }) => {
-    console.log(course);
+const Course = ({ courses }) => {
     return (
         <div>
-            <Header course={course}/>
-            <Content parts={course.parts}/>
+            <Header courses={courses}/>
+            <Content courses={courses} />
         </div>
     )
 }
