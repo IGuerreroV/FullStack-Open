@@ -12,7 +12,8 @@ const App = () => {
     event.preventDefault()
     console.log('buton clicked', event.target);
 
-    setPersons([...persons, { name: newName}])
+    persons.some((person) => person.name === newName) ? alert(`${newName} is already added to phonebook`) : setPersons([...persons, { name: newName}])
+
     setNewName('')
   }
 
