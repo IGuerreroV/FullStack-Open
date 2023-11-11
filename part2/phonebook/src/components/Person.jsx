@@ -2,9 +2,14 @@ const Person = ({ persons }) => {
     return (
         <div>
             {
-                persons.map(person => (
-                    <p key={person.name}>{person.name}</p>
-                ))
+                persons.map(person => {
+                    return (
+                    <div key={person.name}>
+                        <p>{person.name}</p>
+                        <p>{person.number}</p>
+                    </div>
+                    )
+                })
             }
         </div>
     )
