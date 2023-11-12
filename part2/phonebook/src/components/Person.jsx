@@ -1,12 +1,12 @@
-const Person = ({ persons }) => {
+const Person = ({ personToShow }) => {
     return (
         <div>
             {
-                persons.map(person => {
+                personToShow.map(({ name, number}) => {
                     return (
-                    <div key={person.name}>
-                        <p>{person.name}</p>
-                        <p>{person.number}</p>
+                    <div key={name}>
+                        <p>{name}</p>
+                        <p>{number}</p>
                     </div>
                     )
                 })
