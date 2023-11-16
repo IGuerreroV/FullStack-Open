@@ -3,9 +3,9 @@ const Person = ({ personToShow }) => {
         <div>
             <h2>Numbers</h2>
             {
-                personToShow.map(({ name, number}) => {
+                personToShow.map(({ name, number, id}) => {
                     return (
-                    <div key={name}>
+                    <div key={id}>
                         <p>{name}</p>
                         <p>{number}</p>
                     </div>
