@@ -1,4 +1,5 @@
 import Countrie from "./Countrie"
+import Weather from "./Weather"
 
 const Countries = ({ countriesToShow, filter }) => {
     return (
@@ -21,13 +22,16 @@ const Countries = ({ countriesToShow, filter }) => {
 
                         { /* Verificamos si countriesToShow tiene un solo pais, si es asi procedemos a renderizar countrie con sus respectivas props */
                             countriesToShow.length === 1 && (
-                            <Countrie
-                                name={countriesToShow[0].name.common}
-                                capital={countriesToShow[0].capital}
-                                population={countriesToShow[0].population}
-                                languages={countriesToShow[0].languages}
-                                flags={countriesToShow[0].flags.png}
-                            />
+                            <div>
+                                <Countrie
+                                    name={countriesToShow[0].name.common}
+                                    capital={countriesToShow[0].capital}
+                                    population={countriesToShow[0].population}
+                                    languages={countriesToShow[0].languages}
+                                    flags={countriesToShow[0].flags.png}
+                                />
+                                <Weather capital={countriesToShow[0].capital}/>
+                            </div>
                             )
                         }
 
