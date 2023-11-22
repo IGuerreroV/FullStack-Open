@@ -18,16 +18,30 @@ const App = () => {
       .then(response => {
         setPersons(response.data)
       })
-  })
+  }, [])
 
   const addName = (event) => {
     event.preventDefault()
     console.log('buton clicked', event.target);
 
-    persons.some((person) => person.name === newName) ? alert(`${newName} is already added to phonebook`) : setPersons([...persons, { name: newName, number: newNumber}])
+    const newPerson = {
+      name: newName,
+      number: newNumber,
+    }
 
-    setNewName('')
-    setNewNumber('')
+    const isPersonAdded = persons.some((person) => person.name === newName)
+    isPersonAdded ? alert(`${newName} is already added to phonebook`)
+    : axios
+        .post('http://localhost:3000/persons', newPerson)
+        .then(response => {
+        setPersons([...persons, response.data])
+        setNewName('')
+        setNewNumber('')
+    })
+    .catch(error => {
+      alert('Error adding person:', error)
+    })
+
   }
 
   const handleNameChange = (event) => {
