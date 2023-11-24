@@ -28,20 +28,49 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
+      id: ''
     }
 
+    // Verifica si una persona con el nombre `newName` ya existe en el array `persons`
     const isPersonAdded = persons.some((person) => person.name === newName)
-    isPersonAdded ? alert(`${newName} is already added to phonebook`)
-    : personsServices
+
+    // Si una persona con el nombre `newName` ya existe, se le pregunta al usuario si desea actualizar su número
+    if(isPersonAdded) {
+      const confirmUpdate = window.confirm(`${newName}' is already added to phonebook, replace the old number with a new one?`)
+
+      // Si el usuario confirma la actualización, se encuentra el objeto de persona con el nombre `newName`
+      if(confirmUpdate){
+
+        // Encuentra el objeto de persona con el nombre `newName`
+        const personToUpdate = persons.find(person => person.name === newName)
+
+        // Se actualiza el número de la persona usando la función `personsServices.update()`
+        personsServices
+          // Actualiza el numero de la persona con el id especifico
+          .update(personToUpdate.id, newPerson)
+          .then(updatenNumber => {
+            // Se actualiza el estado `persons` con el objeto de persona actualizado
+            setPersons(persons.map(person => person.id !== updatenNumber.id ? person : updatenNumber))
+          })
+          .catch(error => {
+            // Se muestra un mensaje de alerta con el mensaje de error
+            alert(error)
+          })
+      }else{
+        alert('Number update canceled.')
+      }
+    } else{
+      personsServices
         .create(newPerson)
         .then(returnedPersons => {
-        setPersons([...persons, returnedPersons])
-        setNewName('')
-        setNewNumber('')
-    })
-    .catch(error => {
-      alert('Error adding person:', error)
-    })
+          setPersons([...persons, returnedPersons])
+          setNewName('')
+          setNewNumber('')
+      })
+      .catch(error => {
+        alert('Error adding person:', error)
+      })
+    }
 
   }
 
