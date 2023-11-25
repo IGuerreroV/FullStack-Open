@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Person from './components/Person'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import personsServices from './services/persons'
+import Notification from './components/Notification'
 import './App.css'
 
 
@@ -12,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState('shh')
 
   useEffect(() => {
     personsServices
@@ -51,6 +52,12 @@ const App = () => {
           .then(updatenNumber => {
             // Se actualiza el estado `persons` con el objeto de persona actualizado
             setPersons(persons.map(person => person.id !== updatenNumber.id ? person : updatenNumber))
+            setMessage(
+              `Update Number of ${newName} new Number: ${newNumber}`
+            )
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000);
           })
           .catch(error => {
             // Se muestra un mensaje de alerta con el mensaje de error
@@ -66,6 +73,12 @@ const App = () => {
           setPersons([...persons, returnedPersons])
           setNewName('')
           setNewNumber('')
+          setMessage(
+            `Added ${newName}`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000);
       })
       .catch(error => {
         alert('Error adding person:', error)
@@ -122,6 +135,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter handleFilter={handleFilter}/>
       <h2>Add a new</h2>
+      <Notification message={message}/>
       <PersonForm
         handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} newNumber={newNumber}
         newName={newName}
