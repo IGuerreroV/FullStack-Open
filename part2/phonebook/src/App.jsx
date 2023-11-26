@@ -12,7 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [message, setMessage] = useState('shh')
+  const [message, setMessage] = useState({ content: null, status: 'ok'})
 
   useEffect(() => {
     personsServices
@@ -52,16 +52,23 @@ const App = () => {
           .then(updatenNumber => {
             // Se actualiza el estado `persons` con el objeto de persona actualizado
             setPersons(persons.map(person => person.id !== updatenNumber.id ? person : updatenNumber))
-            setMessage(
-              `Update Number of ${newName} new Number: ${newNumber}`
-            )
+            setMessage({
+              content: `Update Number of ${newName} new Number: ${newNumber}`,
+              status: 'ok',
+            })
             setTimeout(() => {
-              setMessage(null)
+              setMessage({ content: null, status: 'ok'})
             }, 5000);
           })
-          .catch(error => {
+          .catch(() => {
             // Se muestra un mensaje de alerta con el mensaje de error
-            alert(error)
+            setMessage({
+              content: `Information of ${newName} has already been removed from server`,
+              status: 'ko'
+            })
+            setTimeout(() => {
+              setMessage({ content: null, status: 'ok'})
+            }, 5000);
           })
       }else{
         alert('Number update canceled.')
@@ -73,15 +80,23 @@ const App = () => {
           setPersons([...persons, returnedPersons])
           setNewName('')
           setNewNumber('')
-          setMessage(
-            `Added ${newName}`
-          )
+          setMessage({
+            content: `Added ${newName}`,
+            status: 'ok'
+          })
           setTimeout(() => {
-            setMessage(null)
+            setMessage({ content: null, status: 'ok'})
           }, 5000);
       })
-      .catch(error => {
-        alert('Error adding person:', error)
+      .catch(() => {
+        setMessage({
+          content: `Error ${newName}`,
+          status: 'ko'
+        }
+        )
+        setTimeout(() => {
+          setMessage({ content: null, status: 'ok'})
+        }, 5000);
       })
     }
 
@@ -135,7 +150,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter handleFilter={handleFilter}/>
       <h2>Add a new</h2>
-      <Notification message={message}/>
+      <Notification status={message.status} content={message.content}/>
       <PersonForm
         handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} newNumber={newNumber}
         newName={newName}
