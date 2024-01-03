@@ -17,7 +17,7 @@ const Notification = ({ content, status }) => {
         {content}
         </div>
     } else {
-        <div></div>
+        return null
     }
 }
 

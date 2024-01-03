@@ -88,12 +88,14 @@ const App = () => {
             setMessage({ content: null, status: 'ok'})
           }, 5000);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error.response.data);
+          const errorMessage = error.response ? error.response.data.error : error.message
+
         setMessage({
-          content: `Error ${newName}`,
+          content: errorMessage,
           status: 'ko'
-        }
-        )
+        })
         setTimeout(() => {
           setMessage({ content: null, status: 'ok'})
         }, 5000);
